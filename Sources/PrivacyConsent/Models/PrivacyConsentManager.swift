@@ -17,13 +17,13 @@ public class PrivacyConsentManager {
     public private(set) var supportedConsentTypes: [ConsentType]!
     private var consentsViewController: UIViewController?
     
-    fileprivate var userDefaults: UserDefaults = UserDefaults.standard
+    fileprivate var storage: PrivacyConsentStorage = UserDefaults.standard
     
     public var privacyPolicyUrl: URL?
     
-    public class func configure(supportedConsentTypes: [ConsentType], privacyPolicyUrl: URL?, userDefaults: UserDefaults = UserDefaults.standard) {
+    public class func configure(supportedConsentTypes: [ConsentType], privacyPolicyUrl: URL?, storage: PrivacyConsentStorage = UserDefaults.standard) {
         Self.default.supportedConsentTypes = supportedConsentTypes
-        Self.default.userDefaults = userDefaults
+        Self.default.storage = storage
         Self.default.privacyPolicyUrl = privacyPolicyUrl
     }
     
@@ -95,17 +95,17 @@ public class PrivacyConsentManager {
             return
         }
         
-        var consents: [String: Bool] = (self.userDefaults.dictionary(forKey: Self.storeKey) as? [String: Bool]) ?? [:]
+        var consents: [String: Bool] = (self.storage.dictionary(forKey: Self.storeKey) as? [String: Bool]) ?? [:]
         
         consents[consent.rawValue] = status.boolValue
         
-        self.userDefaults.setValue(consents, forKey: Self.storeKey)
-        self.userDefaults.synchronize()
+        self.storage.setValue(consents, forKey: Self.storeKey)
+        self.storage.synchronize()
         self.onConsentDidChange(consent: consent)
     }
     
     public func consentStatus(for consent: ConsentType) -> ConsentStatus {
-        guard let consents = self.userDefaults.dictionary(forKey: Self.storeKey) else {
+        guard let consents = self.storage.dictionary(forKey: Self.storeKey) else {
             return .unknown
         }
         
@@ -138,8 +138,8 @@ public class PrivacyConsentManager {
     }
     
     public func resetConsents() {
-        self.userDefaults.removeObject(forKey: Self.storeKey)
-        self.userDefaults.synchronize()
+        self.storage.removeObject(forKey: Self.storeKey)
+        self.storage.synchronize()
         self.onConsentDidChange(consent: nil)
     }
     
