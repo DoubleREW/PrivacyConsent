@@ -10,21 +10,11 @@ import SwiftUI
 
 struct Consent {
     let type: ConsentType
-    var status: ConsentStatus {
-        didSet {
-            self.flag = self.status.isGranted
-        }
-    }
-    @State var flag: Bool {
-        didSet {
-            PrivacyConsentManager.default.setConsent(self.type, status: flag ? .grant : .denied)
-        }
-    }
+    var granted: Bool
     
     init(type: ConsentType, status: ConsentStatus) {
         self.type = type
-        self.status = status
-        self.flag = status.isGranted
+        self.granted = status.isGranted
     }
 }
 

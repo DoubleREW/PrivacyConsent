@@ -12,18 +12,24 @@ struct PrivacyChoicesView: View {
     
     var body: some View {
         VStack {
-            List(vm.consents) { consent in
+            List($vm.consents) { consent in
                 ConsentView(consent: consent)
             }
             Spacer()
             Button("Accept all") {
-                
+                vm.acceptAll()
             }
             .buttonStyle(.primary)
             Button("Close") {
-                
+                vm.close()
             }
             .buttonStyle(.secondary)
+        }
+        .onAppear {
+            vm.loadConsents()
+        }
+        .onDisappear {
+            vm.updateConsentsStatus()
         }
     }
 }

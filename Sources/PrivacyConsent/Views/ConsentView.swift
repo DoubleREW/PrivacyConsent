@@ -8,35 +8,25 @@
 import SwiftUI
 
 struct ConsentView: View {
-    var consent: Consent
+    @Binding var consent: Consent
     private var isEditable: Bool {
-        return (consent.type.allowsUpdate || consent.status == .unknown)
+        return (consent.type.allowsUpdate || !consent.granted)
     }
     
     var body: some View {
         Section(footer: Text(consent.type.description)) {
-            Toggle(consent.type.title, isOn: consent.$flag)
+            Toggle(consent.type.title, isOn: $consent.granted)
                 .disabled(!isEditable)
         }
-        /*VStack(alignment: .leading) {
-            Toggle(consent.type.title, isOn: consent.$flag)
-                .disabled(!isEditable)
-            Text(consent.type.description)
-                .font(.caption)
-                .foregroundColor(.secondary)
-                .lineLimit(nil)
-                .fixedSize(horizontal: false, vertical: true)
-                .multilineTextAlignment(.leading)
-        }*/
     }
 }
 
 struct ConsentView_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            ConsentView(consent: Consent(type: .usageStats, status: .grant))
-            ConsentView(consent: Consent(type: .crashReports, status: .denied))
-            ConsentView(consent: Consent(type: .personalizedAds, status: .unknown))
+            ConsentView(consent: .constant(Consent(type: .usageStats, status: .denied)))
+            ConsentView(consent: .constant(Consent(type: .crashReports, status: .grant)))
+            ConsentView(consent: .constant(Consent(type: .personalizedAds, status: .unknown)))
         }
     }
 }

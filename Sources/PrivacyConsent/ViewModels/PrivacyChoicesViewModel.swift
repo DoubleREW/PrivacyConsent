@@ -11,32 +11,54 @@ import Combine
 
 class PrivacyChoicesViewModel : ObservableObject {
     @Published var consents: [Consent]
-    private var ncConsensDidChangeCancellable: Cancellable?
+    private var consentManager: PrivacyConsentManager
+    // private var ncConsensDidChangeCancellable: Cancellable?
+    private var consentsCancellable: Cancellable?
     
-    init() {
+    init(consentManager: PrivacyConsentManager = .default) {
+        self.consentManager = consentManager
+        self.consents = []
+        
+        // TODO: Remove from here
         PrivacyConsentManager.configure(
             supportedConsentTypes: [.crashReports, .usageStats, .personalizedAds],
             privacyPolicyUrl: URL(string: "https://google.com")!)
-        
-        self.consents = PrivacyConsentManager.default.supportedConsentTypes.map {
-            Consent(type: $0, status: PrivacyConsentManager.default.consentStatus(for: $0))
+    }
+    
+    func loadConsents() {
+        self.consents = self.consentManager.supportedConsentTypes.map {
+            Consent(type: $0, status: self.consentManager.consentStatus(for: $0))
         }
         
-        self.ncConsensDidChangeCancellable = NotificationCenter.default
-            .publisher(for: PrivacyConsentManager.consentDidChangeNotification)
-            .sink { notification in
-                guard let userInfo = notification.userInfo as? [String: Any] else { return }
-                
-                if let changedConsentType = userInfo["consent"] as? ConsentType {
-                    if let index = self.consents.enumerated().filter({ $1.type.rawValue == changedConsentType.rawValue }).map({ $0.offset }).first {
-                        let newStatus = PrivacyConsentManager.default.consentStatus(for: changedConsentType)
-                        self.consents[index].status = newStatus
-                    }
-                } else {
-                    self.consents = PrivacyConsentManager.default.supportedConsentTypes.map {
-                        Consent(type: $0, status: PrivacyConsentManager.default.consentStatus(for: $0))
-                    }
-                }
+        self.consentsCancellable = self.$consents.dropFirst().sink { consents in
+            self.saveConsentsStatus(consents: consents)
+        }
+    }
+    
+    func close() {
+        consentManager.dismissConsentsCrontroller()
+    }
+    
+    func acceptAll() {
+        var consentsClone = self.consents
+        self.consents.enumerated().forEach { (i, consent) in
+            if !consent.granted {
+                consentsClone[i].granted = true
             }
+        }
+        
+        self.consents = consentsClone
+        
+        self.close()
+    }
+    
+    func updateConsentsStatus() {
+        self.saveConsentsStatus(consents: self.consents)
+    }
+    
+    private func saveConsentsStatus(consents: [Consent]) {
+        consents.forEach { consent in
+            self.consentManager.setConsent(consent.type, status: consent.granted ? .grant : .denied)
+        }
     }
 }
