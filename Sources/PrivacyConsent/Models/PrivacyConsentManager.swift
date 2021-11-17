@@ -5,13 +5,17 @@
 //  Created by Fausto Ristagno on 15/11/21.
 //
 import Foundation
+import UIKit
+import SwiftUI
 
 public class PrivacyConsentManager {
     public static let `default` = PrivacyConsentManager()
     public static let consentDidChangeNotification = Notification.Name("PrivacyConsentHelperConsentDidChangeNotification")
     public static let consentsControllerWillPresent = Notification.Name("PrivacyConsentHelperConsentsControllerWillPresent")
+    public static let consentsControllerDidDismiss = Notification.Name("PrivacyConsentHelperConsentsControllerDidDismiss")
     private static let storeKey = "PrivacyConsentFlags"
     public private(set) var supportedConsentTypes: [ConsentType]!
+    private var consentsViewController: UIViewController?
     
     fileprivate var userDefaults: UserDefaults = UserDefaults.standard
     
@@ -34,10 +38,19 @@ public class PrivacyConsentManager {
     }
     
     public func presentConsentsController(ifNeeded: Bool = true, allowsClose: Bool = false) {
+        guard self.consentsViewController == nil else {
+            return
+        }
+        
         guard ifNeeded == false || self.shouldShowConsentsController() else {
             return
         }
-        // TODO: Sostituire con View SwiftUI
+    
+        guard let rootVC = UIApplication.shared.keyWindow?.rootViewController else {
+            fatalError("Missing root view controller")
+        }
+        
+        let controller = UIHostingController(rootView: PrivacyConsentModalView())
         /*
         let storyboard = UIStoryboard(name: "PrivacyConsent", bundle: Bundle(for: Self.self))
         guard
@@ -46,6 +59,7 @@ public class PrivacyConsentManager {
         else {
             fatalError("Missing initial view controller in privacy consent storyboard")
         }
+        */
         
         controller.modalPresentationStyle = .formSheet
         
@@ -54,7 +68,8 @@ public class PrivacyConsentManager {
         }
         
         rootVC.present(controller, animated: true)
-        */
+        
+        self.consentsViewController = controller
         
         NotificationCenter.default.post(
             name: Self.consentsControllerWillPresent,
@@ -62,7 +77,20 @@ public class PrivacyConsentManager {
             userInfo: nil)
     }
     
-    public func setConsent(_ consent: ConsentType, status: ConsentStatus) {
+    public func dismissConsentsCrontroller() {
+        guard let controller = self.consentsViewController else {
+            return
+        }
+        
+        controller.dismiss(animated: true) {
+            NotificationCenter.default.post(
+                name: Self.consentsControllerDidDismiss,
+                object: self,
+                userInfo: nil)
+        }
+    }
+    
+    func setConsent(_ consent: ConsentType, status: ConsentStatus) {
         guard status != self.consentStatus(for: consent) else {
             return
         }

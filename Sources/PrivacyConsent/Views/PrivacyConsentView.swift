@@ -24,7 +24,7 @@ public struct PrivacyConsentView : View {
                 }
                 Spacer()
                 Button("Accept") {
-                    
+                    vm.acceptAndClose()
                 }
                 .buttonStyle(.primary)
                 NavigationLink(destination: PrivacyChoicesView()) {
