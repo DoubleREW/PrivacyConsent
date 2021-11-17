@@ -8,6 +8,7 @@
 import Foundation
 
 public protocol PrivacyConsentStorage {
+    @discardableResult
     func synchronize() -> Bool
     func dictionary(forKey defaultName: String) -> [String : Any]?
     func setValue(_ value: Any?, forKey key: String)
