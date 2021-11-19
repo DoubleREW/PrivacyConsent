@@ -6,21 +6,38 @@
 //
 
 import SwiftUI
-@testable import PrivacyConsent
+import PrivacyConsent
 
 struct ContentView: View {
+    @State var isPresented = false
+    
     var body: some View {
-        PrivacyConsentView()
-            .environmentObject(PrivacyConsentViewModel())
-            .environmentObject(PrivacyChoicesViewModel())
-            .accentColor(.orange)
+        VStack(alignment: .center) {
+            Button("Mostra") {
+                PrivacyConsentManager.default.presentConsentsController(
+                    ifNeeded: false, allowsClose: false)
+            }
+            Button("Mostra (Richiudibile)") {
+                PrivacyConsentManager.default.presentConsentsController(
+                    ifNeeded: false, allowsClose: true)
+            }
+        }
+        .onAppear {
+            PrivacyConsentManager.configure(
+                supportedConsentTypes: [
+                    .crashReports,
+                    .usageStats,
+                    .personalizedAds
+                ],
+                privacyPolicyUrl: URL(string: "https://google.com")!)
+        }
+        .accentColor(.orange)
+        
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(PrivacyConsentViewModel())
-            .environmentObject(PrivacyChoicesViewModel())
     }
 }
