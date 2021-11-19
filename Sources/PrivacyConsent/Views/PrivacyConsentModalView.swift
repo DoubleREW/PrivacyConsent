@@ -10,6 +10,7 @@ import SwiftUI
 struct PrivacyConsentModalView: View {
     var body: some View {
         PrivacyConsentView()
+            .environmentObject(PrivacyConsentLoader())
             .environmentObject(PrivacyConsentViewModel())
             .environmentObject(PrivacyChoicesViewModel())
     }

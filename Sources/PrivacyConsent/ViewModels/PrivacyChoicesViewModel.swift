@@ -18,11 +18,6 @@ class PrivacyChoicesViewModel : ObservableObject {
     init(consentManager: PrivacyConsentManager = .default) {
         self.consentManager = consentManager
         self.consents = []
-        
-        // TODO: Remove from here
-        PrivacyConsentManager.configure(
-            supportedConsentTypes: [.crashReports, .usageStats, .personalizedAds],
-            privacyPolicyUrl: URL(string: "https://google.com")!)
     }
     
     func loadConsents() {

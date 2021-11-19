@@ -40,6 +40,7 @@ public struct PrivacyConsentView : View {
 struct PrivacyConsentView_Previews : PreviewProvider {
     static var previews: some View {
         PrivacyConsentView()
+            .environmentObject(PrivacyConsentLoader())
             .environmentObject(PrivacyConsentViewModel())
             .environmentObject(PrivacyChoicesViewModel())
     }
