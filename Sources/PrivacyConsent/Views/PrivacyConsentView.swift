@@ -1,6 +1,6 @@
 //
 //  PrivacyConsentView.swift
-//  
+//
 //
 //  Created by Fausto Ristagno on 15/11/21.
 //
@@ -10,7 +10,7 @@ import SwiftUI
 
 public struct PrivacyConsentView : View {
     @EnvironmentObject var vm: PrivacyConsentViewModel
-    
+
     public var body: some View {
         NavigationView {
             VStack(alignment: .center) {

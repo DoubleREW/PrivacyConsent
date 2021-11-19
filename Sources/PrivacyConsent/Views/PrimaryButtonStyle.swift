@@ -1,6 +1,6 @@
 //
 //  PrimaryButton.swift
-//  
+//
 //
 //  Created by Fausto Ristagno on 16/11/21.
 //
@@ -27,7 +27,7 @@ extension ButtonStyle where Self == PrimaryButtonStyle {
 struct PrimaryButtonStyle_Previews: PreviewProvider {
     static var previews: some View {
         Button("Primary Button") {
-            
+
         }
         .buttonStyle(.primary)
     }

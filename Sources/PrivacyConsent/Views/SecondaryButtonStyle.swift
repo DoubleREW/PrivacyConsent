@@ -1,6 +1,6 @@
 //
 //  SecondaryButtonStyle.swift
-//  
+//
 //
 //  Created by Fausto Ristagno on 16/11/21.
 //
@@ -29,7 +29,7 @@ extension ButtonStyle where Self == SecondaryButtonStyle {
 struct SecondaryButtonStyle_Previews: PreviewProvider {
     static var previews: some View {
         Button("Secondary Button") {
-            
+
         }
         .buttonStyle(.secondary)
     }

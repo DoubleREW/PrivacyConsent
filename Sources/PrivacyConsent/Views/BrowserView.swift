@@ -1,6 +1,6 @@
 //
 //  BrowserView.swift
-//  
+//
 //
 //  Created by Fausto Ristagno on 15/11/21.
 //

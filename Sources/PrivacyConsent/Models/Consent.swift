@@ -1,6 +1,6 @@
 //
 //  Consent.swift
-//  
+//
 //
 //  Created by Fausto Ristagno on 16/11/21.
 //
@@ -11,7 +11,7 @@ import SwiftUI
 struct Consent {
     let type: ConsentType
     var granted: Bool
-    
+
     init(type: ConsentType, status: ConsentStatus) {
         self.type = type
         self.granted = status.isGranted

@@ -1,6 +1,6 @@
 //
 //  PrivacyConsentModalView.swift
-//  
+//
 //
 //  Created by Fausto Ristagno on 17/11/21.
 //

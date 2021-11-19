@@ -1,6 +1,6 @@
 //
 //  PrivacyConsentViewModel.swift
-//  
+//
 //
 //  Created by Fausto Ristagno on 15/11/21.
 //
@@ -17,11 +17,11 @@ Tap Accept if you want to allow the app to collect anonymous info, or tap Custom
     var privacyPolicyUrl: URL? {
         consentManager.privacyPolicyUrl
     }
-    
+
     init(consentManager: PrivacyConsentManager = .default) {
         self.consentManager = consentManager
     }
-    
+
     func acceptAndClose() {
         consentManager.consentAll()
         consentManager.dismissConsentsCrontroller()

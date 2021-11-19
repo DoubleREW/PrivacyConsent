@@ -1,6 +1,6 @@
 //
 //  SwiftUIView.swift
-//  
+//
 //
 //  Created by Fausto Ristagno on 16/11/21.
 //
@@ -12,7 +12,7 @@ struct ConsentView: View {
     private var isEditable: Bool {
         return (consent.type.allowsUpdate || !consent.granted)
     }
-    
+
     var body: some View {
         Section(footer: Text(consent.type.description)) {
             Toggle(consent.type.title, isOn: $consent.granted)

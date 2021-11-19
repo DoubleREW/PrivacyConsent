@@ -1,6 +1,6 @@
 //
 //  ConsentType.swift
-//  
+//
 //
 //  Created by Fausto Ristagno on 16/11/21.
 //
@@ -12,7 +12,7 @@ public struct ConsentType {
     public let title: String
     public let description: String
     public let allowsUpdate: Bool
-    
+
     public static let usageStats: ConsentType = ConsentType(
         rawValue: "usageStats",
         title: "Anonymous usage statistics",
