@@ -16,14 +16,17 @@ struct PrivacyChoicesView: View {
                 ConsentView(consent: consent)
             }
             Spacer()
-            Button("Accept all") {
-                vm.acceptAll()
+            VStack {
+                Button("Accept all") {
+                    vm.acceptAll()
+                }
+                .buttonStyle(.primary)
+                Button("Close") {
+                    vm.close()
+                }
+                .buttonStyle(.secondary)
             }
-            .buttonStyle(.primary)
-            Button("Close") {
-                vm.close()
-            }
-            .buttonStyle(.secondary)
+            .padding()
         }
         .onAppear {
             vm.loadConsents()

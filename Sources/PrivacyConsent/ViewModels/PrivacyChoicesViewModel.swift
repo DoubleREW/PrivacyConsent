@@ -44,7 +44,9 @@ class PrivacyChoicesViewModel : ObservableObject {
 
         self.consents = consentsClone
 
-        self.close()
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+            self.close()
+        }
     }
 
     func updateConsentsStatus() {

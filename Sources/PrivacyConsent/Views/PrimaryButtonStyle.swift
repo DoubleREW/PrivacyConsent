@@ -12,9 +12,14 @@ struct PrimaryButtonStyle : ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
-            .background(Color.accentColor)
+            .frame(minWidth: 0, maxWidth: .infinity)
+            .background(
+                RoundedRectangle(
+                    cornerRadius: 16.0)
+                    .fill(Color.accentColor)
+            )
             .foregroundColor(.white)
-            .cornerRadius(16)
+            .opacity(configuration.isPressed ? 0.75 : 1.0)
     }
 }
 

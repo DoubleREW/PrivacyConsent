@@ -15,12 +15,17 @@ public struct PrivacyConsentView : View {
         NavigationView {
             VStack(alignment: .center) {
                 Image("PrivacyIcon", bundle: Bundle.module)
+                    .resizable()
                     .foregroundColor(.accentColor)
+                    .frame(width: 96, height: 96)
+                    .padding()
                 Text(vm.text)
                 if let url = vm.privacyPolicyUrl {
                     NavigationLink(destination: BrowserView(url: url)) {
                         Text("Read more")
+                            .foregroundColor(.secondary)
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 Spacer()
                 Button("Accept") {

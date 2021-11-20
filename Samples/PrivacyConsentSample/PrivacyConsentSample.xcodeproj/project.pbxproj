@@ -7,24 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		715599D527499AB200C54268 /* PrivacyConsent in Frameworks */ = {isa = PBXBuildFile; productRef = 715599D427499AB200C54268 /* PrivacyConsent */; };
+		715599D727499ABC00C54268 /* PrivacyConsent in Frameworks */ = {isa = PBXBuildFile; productRef = 715599D627499ABC00C54268 /* PrivacyConsent */; };
 		71A7441F2744D64200D1D8FB /* PrivacyConsentSampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A7440F2744D63F00D1D8FB /* PrivacyConsentSampleApp.swift */; };
 		71A744202744D64200D1D8FB /* PrivacyConsentSampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A7440F2744D63F00D1D8FB /* PrivacyConsentSampleApp.swift */; };
 		71A744212744D64200D1D8FB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A744102744D63F00D1D8FB /* ContentView.swift */; };
 		71A744222744D64200D1D8FB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A744102744D63F00D1D8FB /* ContentView.swift */; };
 		71A744232744D64200D1D8FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71A744112744D64200D1D8FB /* Assets.xcassets */; };
 		71A744242744D64200D1D8FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71A744112744D64200D1D8FB /* Assets.xcassets */; };
-		71A744322744D6BF00D1D8FB /* PrivacyConsent in Frameworks */ = {isa = PBXBuildFile; productRef = 71A744312744D6BF00D1D8FB /* PrivacyConsent */; };
-		71A744342744D6C500D1D8FB /* PrivacyConsent in Frameworks */ = {isa = PBXBuildFile; productRef = 71A744332744D6C500D1D8FB /* PrivacyConsent */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		715599D327499AA200C54268 /* PrivacyConsent */ = {isa = PBXFileReference; lastKnownFileType = folder; name = PrivacyConsent; path = ../..; sourceTree = "<group>"; };
 		71A7440F2744D63F00D1D8FB /* PrivacyConsentSampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyConsentSampleApp.swift; sourceTree = "<group>"; };
 		71A744102744D63F00D1D8FB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		71A744112744D64200D1D8FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		71A744162744D64200D1D8FB /* PrivacyConsentSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrivacyConsentSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		71A7441C2744D64200D1D8FB /* PrivacyConsentSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrivacyConsentSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		71A7441E2744D64200D1D8FB /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
-		71A7442F2744D6AA00D1D8FB /* PrivacyConsent */ = {isa = PBXFileReference; lastKnownFileType = folder; name = PrivacyConsent; path = ../..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,7 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71A744322744D6BF00D1D8FB /* PrivacyConsent in Frameworks */,
+				715599D527499AB200C54268 /* PrivacyConsent in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,17 +40,25 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71A744342744D6C500D1D8FB /* PrivacyConsent in Frameworks */,
+				715599D727499ABC00C54268 /* PrivacyConsent in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		715599D227499AA200C54268 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				715599D327499AA200C54268 /* PrivacyConsent */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 		71A744092744D63F00D1D8FB = {
 			isa = PBXGroup;
 			children = (
-				71A7442D2744D65F00D1D8FB /* Packages */,
+				715599D227499AA200C54268 /* Packages */,
 				71A7440E2744D63F00D1D8FB /* Shared */,
 				71A7441D2744D64200D1D8FB /* macOS */,
 				71A744172744D64200D1D8FB /* Products */,
@@ -85,14 +93,6 @@
 			path = macOS;
 			sourceTree = "<group>";
 		};
-		71A7442D2744D65F00D1D8FB /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				71A7442F2744D6AA00D1D8FB /* PrivacyConsent */,
-			);
-			name = Packages;
-			sourceTree = "<group>";
-		};
 		71A744302744D6BF00D1D8FB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -117,7 +117,7 @@
 			);
 			name = "PrivacyConsentSample (iOS)";
 			packageProductDependencies = (
-				71A744312744D6BF00D1D8FB /* PrivacyConsent */,
+				715599D427499AB200C54268 /* PrivacyConsent */,
 			);
 			productName = "PrivacyConsentSample (iOS)";
 			productReference = 71A744162744D64200D1D8FB /* PrivacyConsentSample.app */;
@@ -137,7 +137,7 @@
 			);
 			name = "PrivacyConsentSample (macOS)";
 			packageProductDependencies = (
-				71A744332744D6C500D1D8FB /* PrivacyConsent */,
+				715599D627499ABC00C54268 /* PrivacyConsent */,
 			);
 			productName = "PrivacyConsentSample (macOS)";
 			productReference = 71A7441C2744D64200D1D8FB /* PrivacyConsentSample.app */;
@@ -482,11 +482,11 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		71A744312744D6BF00D1D8FB /* PrivacyConsent */ = {
+		715599D427499AB200C54268 /* PrivacyConsent */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PrivacyConsent;
 		};
-		71A744332744D6C500D1D8FB /* PrivacyConsent */ = {
+		715599D627499ABC00C54268 /* PrivacyConsent */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PrivacyConsent;
 		};

@@ -12,11 +12,14 @@ struct SecondaryButtonStyle : ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
+            .frame(minWidth: 0, maxWidth: .infinity)
             .foregroundColor(.accentColor)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(Color.accentColor, lineWidth: 1)
+                    .padding([.leading, .trailing], 1)
             )
+            .opacity(configuration.isPressed ? 0.75 : 1.0)
     }
 }
 
