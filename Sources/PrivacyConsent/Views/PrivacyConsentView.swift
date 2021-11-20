@@ -37,7 +37,11 @@ public struct PrivacyConsentView : View {
                 }
                 .buttonStyle(.secondary)
             }
-            .navigationBarTitle("Title", displayMode: .inline)
+            .padding()
+            #if !os(macOS)
+            .navigationBarHidden(false)
+            .navigationBarTitle("Privacy Consent", displayMode: .inline)
+            #endif
         }
     }
 }

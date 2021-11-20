@@ -7,8 +7,11 @@
 
 import Foundation
 import SwiftUI
+#if !os(macOS)
 import SafariServices
+#endif
 
+#if !os(macOS)
 struct BrowserView : UIViewControllerRepresentable {
     let url: URL
 
@@ -20,6 +23,15 @@ struct BrowserView : UIViewControllerRepresentable {
 
     }
 }
+#else
+struct BrowserView : View {
+    let url: URL
+
+    var body: some View {
+        Text("Missing")
+    }
+}
+#endif
 
 struct BrowserView_Previews : PreviewProvider {
     static var previews: some View {

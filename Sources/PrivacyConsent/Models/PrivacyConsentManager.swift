@@ -5,8 +5,10 @@
 //  Created by Fausto Ristagno on 15/11/21.
 //
 import Foundation
-import UIKit
 import SwiftUI
+#if !os(macOS)
+import UIKit
+#endif
 
 public class PrivacyConsentManager {
     public static let `default` = PrivacyConsentManager()
@@ -15,7 +17,7 @@ public class PrivacyConsentManager {
     public static let consentsControllerDidDismiss = Notification.Name("PrivacyConsentHelperConsentsControllerDidDismiss")
     private static let storeKey = "PrivacyConsentFlags"
     public private(set) var supportedConsentTypes: [ConsentType]!
-    private var consentsViewController: UIViewController?
+    private weak var consentsViewController: AnyObject?
 
     fileprivate var storage: PrivacyConsentStorage = UserDefaults.standard
 
@@ -46,6 +48,7 @@ public class PrivacyConsentManager {
             return
         }
 
+        #if !os(macOS)
         guard let rootVC = UIApplication.shared.rootViewController else {
             fatalError("Missing root view controller")
         }
@@ -57,6 +60,7 @@ public class PrivacyConsentManager {
         rootVC.present(controller, animated: true)
 
         self.consentsViewController = controller
+        #endif
 
         NotificationCenter.default.post(
             name: Self.consentsControllerWillPresent,
@@ -65,7 +69,8 @@ public class PrivacyConsentManager {
     }
 
     public func dismissConsentsCrontroller() {
-        guard let controller = self.consentsViewController else {
+        #if !os(macOS)
+        guard let controller = self.consentsViewController as? UIViewController else {
             return
         }
 
@@ -79,6 +84,7 @@ public class PrivacyConsentManager {
                 object: self,
                 userInfo: nil)
         }
+        #endif
     }
 
     func setConsent(_ consent: ConsentType, status: ConsentStatus) {
@@ -148,6 +154,7 @@ public class PrivacyConsentManager {
     }
 }
 
+#if !os(macOS)
 extension UIApplication {
     var mainWindow: UIWindow? {
         return self.connectedScenes
@@ -161,3 +168,4 @@ extension UIApplication {
         return self.mainWindow?.rootViewController
     }
 }
+#endif
