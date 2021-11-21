@@ -105,7 +105,7 @@ public class PrivacyConsentManager {
         #endif
     }
 
-    func setConsent(_ consent: ConsentType, status: ConsentStatus) {
+    public func setConsent(_ consent: ConsentType, status: ConsentStatus) {
         guard status != self.consentStatus(for: consent) else {
             return
         }
