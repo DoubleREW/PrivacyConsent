@@ -60,6 +60,13 @@ public class PrivacyConsentManager {
         rootVC.present(controller, animated: true)
 
         self.consentsViewController = controller
+        #else
+        let controller = NSHostingController(rootView: PrivacyConsentModalView())
+        let privacyWindow = NSWindow(contentViewController: controller)
+        NSApp.mainWindow?.beginSheet(privacyWindow, completionHandler: { response in
+            self.consentsViewController = nil
+        })
+        self.consentsViewController = privacyWindow
         #endif
 
         NotificationCenter.default.post(
@@ -69,13 +76,13 @@ public class PrivacyConsentManager {
     }
 
     public func dismissConsentsCrontroller() {
+        defer {
+            self.consentsViewController = nil
+        }
+
         #if !os(macOS)
         guard let controller = self.consentsViewController as? UIViewController else {
             return
-        }
-
-        defer {
-            self.consentsViewController = nil
         }
 
         controller.dismiss(animated: true) {
@@ -84,6 +91,17 @@ public class PrivacyConsentManager {
                 object: self,
                 userInfo: nil)
         }
+        #else
+        guard let privacyWindow = self.consentsViewController as? NSWindow else {
+            return
+        }
+
+        NSApp.mainWindow?.endSheet(privacyWindow)
+
+        NotificationCenter.default.post(
+            name: Self.consentsControllerDidDismiss,
+            object: self,
+            userInfo: nil)
         #endif
     }
 

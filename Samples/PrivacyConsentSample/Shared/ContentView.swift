@@ -32,6 +32,9 @@ struct ContentView: View {
                 privacyPolicyUrl: URL(string: "https://google.com")!)
         }
         .accentColor(.orange)
+        #if os(macOS)
+        .frame(width: 640, height: 480)
+        #endif
         
     }
 }

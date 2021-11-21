@@ -21,11 +21,19 @@ public struct PrivacyConsentView : View {
                     .padding()
                 Text(vm.text)
                 if let url = vm.privacyPolicyUrl {
+                    #if !os(macOS)
                     NavigationLink(destination: BrowserView(url: url)) {
                         Text("Read more")
                             .foregroundColor(.secondary)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    #else
+                    if #available(macOS 11.0, *) {
+                        Link("Read more", destination: url)
+                        .foregroundColor(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    #endif
                 }
                 Spacer()
                 Button("Accept") {
@@ -43,6 +51,9 @@ public struct PrivacyConsentView : View {
             .navigationBarTitle("Privacy Consent", displayMode: .inline)
             #endif
         }
+        #if os(macOS)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        #endif
     }
 }
 
