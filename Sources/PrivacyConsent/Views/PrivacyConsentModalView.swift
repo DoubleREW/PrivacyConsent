@@ -8,11 +8,17 @@
 import SwiftUI
 
 struct PrivacyConsentModalView: View {
-    var body: some View {
+    var consentView: some View {
+        #if !os(macOS)
+        PrivacyConsentNavigationView()
+        #else
         PrivacyConsentView()
-        #if os(macOS)
             .frame(width: 360, height: 480)
         #endif
+    }
+
+    var body: some View {
+        consentView
             .environmentObject(PrivacyConsentLoader())
             .environmentObject(PrivacyConsentViewModel())
             .environmentObject(PrivacyChoicesViewModel())

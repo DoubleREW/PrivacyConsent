@@ -63,9 +63,15 @@ public class PrivacyConsentManager {
         #else
         let controller = NSHostingController(rootView: PrivacyConsentModalView())
         let privacyWindow = NSWindow(contentViewController: controller)
-        NSApp.mainWindow?.beginSheet(privacyWindow, completionHandler: { response in
-            self.consentsViewController = nil
-        })
+
+        if allowsClose {
+            privacyWindow.makeKeyAndOrderFront(nil)
+        } else {
+            NSApp.mainWindow?.beginSheet(privacyWindow, completionHandler: { response in
+                self.consentsViewController = nil
+            })
+        }
+
         self.consentsViewController = privacyWindow
         #endif
 
@@ -96,7 +102,15 @@ public class PrivacyConsentManager {
             return
         }
 
-        NSApp.mainWindow?.endSheet(privacyWindow)
+        privacyWindow.sheets.forEach { sheet in
+            privacyWindow.endSheet(sheet)
+        }
+
+        if privacyWindow.parent == nil {
+            privacyWindow.close()
+        } else {
+            NSApp.mainWindow?.endSheet(privacyWindow)
+        }
 
         NotificationCenter.default.post(
             name: Self.consentsControllerDidDismiss,
