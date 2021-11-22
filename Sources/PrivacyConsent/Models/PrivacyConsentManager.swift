@@ -63,6 +63,7 @@ public class PrivacyConsentManager {
         #else
         let controller = NSHostingController(rootView: PrivacyConsentModalView())
         let privacyWindow = NSWindow(contentViewController: controller)
+        privacyWindow.title = "Privacy Consent"
 
         if allowsClose {
             privacyWindow.makeKeyAndOrderFront(nil)
