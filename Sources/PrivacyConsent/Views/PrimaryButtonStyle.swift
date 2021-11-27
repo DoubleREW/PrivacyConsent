@@ -31,9 +31,11 @@ extension ButtonStyle where Self == PrimaryButtonStyle {
 
 struct PrimaryButtonStyle_Previews: PreviewProvider {
     static var previews: some View {
-        Button("Primary Button") {
+        HStack {
+            Button("Secondary Button") {
 
-        }
-        .buttonStyle(.primary)
+            }
+            .buttonStyle(.primary)
+        }.padding()
     }
 }

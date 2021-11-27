@@ -14,6 +14,8 @@ struct SecondaryButtonStyle : ButtonStyle {
             .padding()
             .frame(minWidth: 0, maxWidth: .infinity)
             .foregroundColor(.accentColor)
+            .background(Color.white.opacity(0.01))
+            .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(Color.accentColor, lineWidth: 1)
@@ -31,9 +33,11 @@ extension ButtonStyle where Self == SecondaryButtonStyle {
 
 struct SecondaryButtonStyle_Previews: PreviewProvider {
     static var previews: some View {
-        Button("Secondary Button") {
+        HStack {
+            Button("Secondary Button") {
 
-        }
-        .buttonStyle(.secondary)
+            }
+            .buttonStyle(.secondary)
+        }.padding()
     }
 }
