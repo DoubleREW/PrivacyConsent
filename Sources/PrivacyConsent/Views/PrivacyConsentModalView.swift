@@ -19,7 +19,6 @@ struct PrivacyConsentModalView: View {
 
     var body: some View {
         consentView
-            .environmentObject(PrivacyConsentLoader())
             .environmentObject(PrivacyConsentViewModel())
             .environmentObject(PrivacyChoicesViewModel())
     }
