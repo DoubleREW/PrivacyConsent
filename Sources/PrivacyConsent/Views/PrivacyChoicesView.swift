@@ -41,6 +41,10 @@ struct PrivacyChoicesView_Previews: PreviewProvider {
     static var previews: some View {
         PrivacyChoicesView()
             .environmentObject(PrivacyConsentLoader())
-            .environmentObject(PrivacyChoicesViewModel())
+            .environmentObject(PrivacyChoicesViewModel(consents: [
+                Consent(type: .usageStats, status: .denied),
+                Consent(type: .crashReports, status: .grant),
+                Consent(type: .personalizedAds, status: .unknown),
+            ]))
     }
 }

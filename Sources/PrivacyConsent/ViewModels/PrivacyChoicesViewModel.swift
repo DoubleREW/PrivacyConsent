@@ -15,9 +15,9 @@ class PrivacyChoicesViewModel : ObservableObject {
     // private var ncConsensDidChangeCancellable: Cancellable?
     private var consentsCancellable: Cancellable?
 
-    init(consentManager: PrivacyConsentManager = .default) {
+    init(consentManager: PrivacyConsentManager = .default, consents: [Consent] = []) {
         self.consentManager = consentManager
-        self.consents = []
+        self.consents = consents
     }
 
     func loadConsents() {
