@@ -10,6 +10,7 @@ import SwiftUI
 
 public struct PrivacyConsentView : View {
     @EnvironmentObject var vm: PrivacyConsentViewModel
+    @EnvironmentObject var choicesVm: PrivacyChoicesViewModel
 
     public var body: some View {
         VStack(alignment: .center) {
@@ -29,8 +30,12 @@ public struct PrivacyConsentView : View {
                 #else
                 if #available(macOS 11.0, *) {
                     Link("Read more", destination: url)
-                    .foregroundColor(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundColor(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                } else {
+                    Button("Read more") {
+                        vm.open(url)
+                    }
                 }
                 #endif
             }
@@ -58,6 +63,9 @@ public struct PrivacyConsentView : View {
         #endif
         .sheet(isPresented: $vm.customizeSheetVisible) {
             PrivacyChoicesView()
+                // Fix crash due to a bug of macOS 10.15
+                // should be removed when support to this OS will be dropped
+                .environmentObject(self.choicesVm)
                 .frame(width: 360, height: 480)
         }
     }

@@ -29,4 +29,12 @@ Tap Accept if you want to allow the app to collect anonymous info, or tap Custom
         consentManager.consentAll()
         consentManager.dismissConsentsCrontroller()
     }
+
+    @available(macOS 10.15, *)
+    @available(iOS, unavailable)
+    @available(tvOS, unavailable)
+    @available(watchOS, unavailable)
+    func open(_ url: URL) {
+        NSWorkspace.shared.open(url)
+    }
 }
