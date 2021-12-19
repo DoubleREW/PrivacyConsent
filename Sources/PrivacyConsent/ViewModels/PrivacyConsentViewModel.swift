@@ -35,6 +35,8 @@ Tap Accept if you want to allow the app to collect anonymous info, or tap Custom
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
     func open(_ url: URL) {
+        #if canImport(AppKit)
         NSWorkspace.shared.open(url)
+        #endif
     }
 }
