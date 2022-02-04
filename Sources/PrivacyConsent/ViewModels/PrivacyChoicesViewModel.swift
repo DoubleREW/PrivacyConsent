@@ -12,8 +12,7 @@ import Combine
 class PrivacyChoicesViewModel : ObservableObject {
     @Published var consents: [Consent]
     private var consentManager: PrivacyConsentManager
-    // private var ncConsensDidChangeCancellable: Cancellable?
-    private var consentsCancellable: Cancellable?
+    private var subscriptions = Set<AnyCancellable>()
 
     init(consentManager: PrivacyConsentManager = .default, consents: [Consent] = []) {
         self.consentManager = consentManager
@@ -25,13 +24,17 @@ class PrivacyChoicesViewModel : ObservableObject {
             Consent(type: $0, status: self.consentManager.consentStatus(for: $0))
         }
 
-        self.consentsCancellable = self.$consents.dropFirst().sink { consents in
-            self.saveConsentsStatus(consents: consents)
-        }
+        self.$consents
+            .dropFirst()
+            .sink { consents in
+                self.saveConsentsStatus(consents: consents)
+            }
+            .store(in: &subscriptions)
     }
 
     func close() {
-        consentManager.dismissConsentsCrontroller()
+        self.forceSetMissingConsents()
+        self.dissmiss()
     }
 
     func acceptAll() {
@@ -45,7 +48,7 @@ class PrivacyChoicesViewModel : ObservableObject {
         self.consents = consentsClone
 
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
-            self.close()
+            self.dissmiss()
         }
     }
 
@@ -53,9 +56,21 @@ class PrivacyChoicesViewModel : ObservableObject {
         self.saveConsentsStatus(consents: self.consents)
     }
 
+    private func dissmiss() {
+        self.consentManager.dismissConsentsCrontroller()
+    }
+
     private func saveConsentsStatus(consents: [Consent]) {
         consents.forEach { consent in
-            self.consentManager.setConsent(consent.type, status: consent.granted ? .grant : .denied)
+            self.consentManager.setConsent(consent.type, status: consent.status)
         }
+    }
+
+    private func forceSetMissingConsents() {
+        let unknownConsents = self.consents.filter {
+            self.consentManager.consentStatus(for: $0.type) == .unknown
+        }
+
+        self.saveConsentsStatus(consents: unknownConsents)
     }
 }

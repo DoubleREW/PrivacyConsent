@@ -12,6 +12,10 @@ struct Consent {
     let type: ConsentType
     var granted: Bool
 
+    var status: ConsentStatus {
+        granted ? .grant : .denied
+    }
+
     init(type: ConsentType, status: ConsentStatus) {
         self.type = type
         self.granted = status.isGranted
