@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		716976B027AD181E00AFC0EA /* PrivacyConsent in Frameworks */ = {isa = PBXBuildFile; productRef = 716976AF27AD181E00AFC0EA /* PrivacyConsent */; };
 		719420A727692EA500939D4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719420A627692EA500939D4A /* AppDelegate.swift */; };
 		719420A927692EA500939D4A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719420A827692EA500939D4A /* ViewController.swift */; };
 		719420AB27692EA700939D4A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 719420AA27692EA700939D4A /* Assets.xcassets */; };
@@ -15,13 +16,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		716976B127AD182700AFC0EA /* PrivacyConsent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PrivacyConsent; path = ../..; sourceTree = "<group>"; };
 		719420A327692EA500939D4A /* MacCocoaSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacCocoaSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		719420A627692EA500939D4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		719420A827692EA500939D4A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		719420AA27692EA700939D4A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		719420AD27692EA700939D4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		719420AF27692EA700939D4A /* MacCocoaSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacCocoaSample.entitlements; sourceTree = "<group>"; };
-		719420B527692EB700939D4A /* PrivacyConsent */ = {isa = PBXFileReference; lastKnownFileType = folder; name = PrivacyConsent; path = ../..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				716976B027AD181E00AFC0EA /* PrivacyConsent in Frameworks */,
 				719420B827692EC200939D4A /* PrivacyConsent in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -39,7 +41,7 @@
 		7194209A27692EA400939D4A = {
 			isa = PBXGroup;
 			children = (
-				719420B527692EB700939D4A /* PrivacyConsent */,
+				716976B127AD182700AFC0EA /* PrivacyConsent */,
 				719420A527692EA500939D4A /* MacCocoaSample */,
 				719420A427692EA500939D4A /* Products */,
 				719420B627692EC200939D4A /* Frameworks */,
@@ -91,6 +93,7 @@
 			name = MacCocoaSample;
 			packageProductDependencies = (
 				719420B727692EC200939D4A /* PrivacyConsent */,
+				716976AF27AD181E00AFC0EA /* PrivacyConsent */,
 			);
 			productName = MacCocoaSample;
 			productReference = 719420A327692EA500939D4A /* MacCocoaSample.app */;
@@ -120,6 +123,9 @@
 				Base,
 			);
 			mainGroup = 7194209A27692EA400939D4A;
+			packageReferences = (
+				716976AE27AD181E00AFC0EA /* XCRemoteSwiftPackageReference "PrivacyConsent" */,
+			);
 			productRefGroup = 719420A427692EA500939D4A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -359,7 +365,23 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		716976AE27AD181E00AFC0EA /* XCRemoteSwiftPackageReference "PrivacyConsent" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/DoubleREW/PrivacyConsent";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		716976AF27AD181E00AFC0EA /* PrivacyConsent */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 716976AE27AD181E00AFC0EA /* XCRemoteSwiftPackageReference "PrivacyConsent" */;
+			productName = PrivacyConsent;
+		};
 		719420B727692EC200939D4A /* PrivacyConsent */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PrivacyConsent;

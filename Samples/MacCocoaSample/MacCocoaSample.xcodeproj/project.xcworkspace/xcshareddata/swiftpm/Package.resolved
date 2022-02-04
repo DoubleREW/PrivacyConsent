@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "PrivacyConsent",
+        "repositoryURL": "https://github.com/DoubleREW/PrivacyConsent",
+        "state": {
+          "branch": null,
+          "revision": "3b6a7aad39879b389d4b97668cd0d69c8bace522",
+          "version": "1.1.9"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
