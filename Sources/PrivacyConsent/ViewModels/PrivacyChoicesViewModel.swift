@@ -53,14 +53,18 @@ class PrivacyChoicesViewModel : ObservableObject {
     }
 
     func updateConsentsStatus() {
-        self.saveConsentsStatus(consents: self.consents)
+        let changedConsents = self.consents.filter {
+            self.consentManager.consentStatus(for: $0.type) != $0.status
+        }
+
+        self.saveConsentsStatus(consents: changedConsents)
     }
 
     private func dissmiss() {
         self.consentManager.dismissConsentsCrontroller()
     }
 
-    private func saveConsentsStatus(consents: [Consent]) {
+    private func saveConsentsStatus<C>(consents: C) where C: Collection, C.Element == Consent {
         consents.forEach { consent in
             self.consentManager.setConsent(consent.type, status: consent.status)
         }
