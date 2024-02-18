@@ -15,17 +15,17 @@ public struct ConsentType {
 
     public static let usageStats: ConsentType = ConsentType(
         rawValue: "usageStats",
-        title: "Anonymous usage statistics",
-        description: "Allow to collect statistics about how the app is used, for example to know which tool is most used.",
+        title: String(localized: "Anonymous usage statistics", bundle: .module),
+        description: String(localized: "Allow to collect statistics about how the app is used, for example to know which tool is most used.", bundle: .module),
         allowsUpdate: true)
     public static let crashReports: ConsentType = ConsentType(
         rawValue: "crashReports",
-        title: "Anonymous crash reports",
-        description: "Allow to send anonymous crash reports, this is useful to quickly fix bugs.",
+        title: String(localized: "Anonymous crash reports", bundle: .module),
+        description: String(localized: "Allow to send anonymous crash reports, this is useful to quickly fix bugs.", bundle: .module),
         allowsUpdate: true)
     public static let personalizedAds: ConsentType = ConsentType(
         rawValue: "personalizedAds",
-        title: "Personalized ads",
-        description: "Allow to deliver personalized ads to you. You can change this choice from the iOS settings.",
+        title: String(localized: "Personalized ads", bundle: .module),
+        description: String(localized: "Allow to deliver personalized ads to you. You can change this choice from the iOS settings.", bundle: .module),
         allowsUpdate: false)
 }

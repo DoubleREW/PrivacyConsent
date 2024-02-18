@@ -1,0 +1,136 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Accept" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acconsento"
+          }
+        }
+      }
+    },
+    "Accept all" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accetto tutto"
+          }
+        }
+      }
+    },
+    "Allow to collect statistics about how the app is used, for example to know which tool is most used." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acconsento alla raccolta di statistiche sull'utilizzo dell'app, ad esempio per sapere quale strumento è più usato."
+          }
+        }
+      }
+    },
+    "Allow to deliver personalized ads to you. You can change this choice from the iOS settings." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acconsento alla pubblicazione di annunci pubblicitari personalizzati. Puoi modificare questa opzione delle impostazioni di sistema."
+          }
+        }
+      }
+    },
+    "Allow to send anonymous crash reports, this is useful to quickly fix bugs." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acconsento all'invio di report anonimi sui crash, sarà utile alla risoluzione rapida di bug"
+          }
+        }
+      }
+    },
+    "Anonymous crash reports" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report crash anonimi"
+          }
+        }
+      }
+    },
+    "Anonymous usage statistics" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dati statistici anonimi"
+          }
+        }
+      }
+    },
+    "Close" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiudi"
+          }
+        }
+      }
+    },
+    "Customize" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personalizza"
+          }
+        }
+      }
+    },
+    "Personalized ads" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pubblicità personalizzata"
+          }
+        }
+      }
+    },
+    "Privacy Consent" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Consensi Privacy"
+          }
+        }
+      }
+    },
+    "Read more" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leggi di più"
+          }
+        }
+      }
+    },
+    "This app collects anonymous data about usage and crash reports, these data help to fix bugs quickly and make the app grow update after update.\nTap Accept if you want to allow the app to collect anonymous info, or tap Customize if you want to choose which info share with the developer." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questa app colleziona dati anonimi sui crash e sull'utilizzo, questi dati aiutano a velocizzare la risoluzione di bug e alla crescita della stessa aggiornamento dopo aggiornamento.\nTocca Acconsento se vuoi permettere all'app di collezionare dati anonimi, o tocca Personalizza se vuoi scegliere quali informazioni condividere con lo sviluppatore."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

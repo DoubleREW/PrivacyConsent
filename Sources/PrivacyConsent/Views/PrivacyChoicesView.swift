@@ -17,11 +17,11 @@ struct PrivacyChoicesView: View {
             }
             Spacer()
             VStack {
-                Button("Accept all") {
+                Button(String(localized: "Accept all", bundle: .module)) {
                     vm.acceptAll()
                 }
                 .buttonStyle(.primary)
-                Button("Close") {
+                Button(String(localized: "Close", bundle: .module)) {
                     vm.close()
                 }
                 .buttonStyle(.secondary)

@@ -34,7 +34,7 @@ extension ButtonStyle where Self == SecondaryButtonStyle {
 struct SecondaryButtonStyle_Previews: PreviewProvider {
     static var previews: some View {
         HStack {
-            Button("Secondary Button") {
+            Button(String("Secondary Button")) {
 
             }
             .buttonStyle(.secondary)

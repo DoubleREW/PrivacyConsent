@@ -23,34 +23,34 @@ public struct PrivacyConsentView : View {
             if let url = vm.privacyPolicyUrl {
                 #if !os(macOS)
                 NavigationLink(destination: BrowserView(url: url)) {
-                    Text("Read more")
+                    Text("Read more", bundle: .module)
                         .foregroundColor(.secondary)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 #else
                 if #available(macOS 11.0, *) {
-                    Link("Read more", destination: url)
+                    Link(String(localized: "Read more", bundle: .module), destination: url)
                         .foregroundColor(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 } else {
-                    Button("Read more") {
+                    Button(String(localized: "Read more", bundle: .module)) {
                         vm.open(url)
                     }
                 }
                 #endif
             }
             Spacer()
-            Button("Accept") {
+            Button(String(localized: "Accept", bundle: .module)) {
                 vm.acceptAndClose()
             }
             .buttonStyle(.primary)
             #if !os(macOS)
             NavigationLink(destination: PrivacyChoicesView()) {
-                Text("Customize")
+                Text("Customize", bundle: .module)
             }
             .buttonStyle(.secondary)
             #else
-            Button("Customize") {
+            Button(String(localized: "Customize", bundle: .module)) {
                 vm.customizeSheetVisible.toggle()
             }
             .buttonStyle(.secondary)
@@ -59,7 +59,7 @@ public struct PrivacyConsentView : View {
         .padding()
         #if !os(macOS)
         .navigationBarHidden(false)
-        .navigationBarTitle("Privacy Consent", displayMode: .inline)
+        .navigationBarTitle(String(localized: "Privacy Consent", bundle: .module), displayMode: .inline)
         #endif
         .sheet(isPresented: $vm.customizeSheetVisible) {
             PrivacyChoicesView()
