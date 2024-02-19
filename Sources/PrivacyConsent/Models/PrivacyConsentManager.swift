@@ -35,6 +35,8 @@ Tap Accept if you want to allow the app to collect anonymous info, or tap Custom
         refreshMissingConsents()
     }
 
+    public init() { }
+
     public func setConsent(_ consent: ConsentType, status: ConsentStatus) {
         guard status != self.consentStatus(for: consent) else {
             return

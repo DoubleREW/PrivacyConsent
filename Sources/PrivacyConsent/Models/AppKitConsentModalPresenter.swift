@@ -9,12 +9,31 @@
 import SwiftUI
 import AppKit
 
+fileprivate final class ConsentModalSheet<Content: View>: NSWindow {
+
+    init(rootView: Content) {
+        super.init(contentRect: .zero, styleMask: [.titled, .closable, .docModalWindow], backing: .buffered, defer: false)
+        self.contentView = NSHostingView(rootView: rootView)
+    }
+
+    override func performClose(_ sender: Any?) {
+        guard let sheetParent else {
+            super.performClose(sender)
+            return
+        }
+        sheetParent.endSheet(self, returnCode: .alertFirstButtonReturn)
+    }
+
+}
+
+
 public class AppKitConsentModalPresenter : ConsentModalPresenter {
     public let consentManager: PrivacyConsentManager
-    private weak var consentsWindow: NSWindow?
+    private var consentsWindow: NSWindow?
 
     public required init(consentManager: PrivacyConsentManager) {
         self.consentManager = consentManager
+        NotificationCenter.default.addObserver(self, selector: #selector(onWindowWillClose), name: NSWindow.willCloseNotification, object: nil)
     }
     
     public func present(ifNeeded: Bool, allowsClose: Bool) {
@@ -26,8 +45,21 @@ public class AppKitConsentModalPresenter : ConsentModalPresenter {
             return
         }
 
-        let controller = NSHostingController(rootView: PrivacyConsentView())
-        let privacyWindow = NSWindow(contentViewController: controller)
+
+        let rootView = PrivacyConsentView()
+            .environment(consentManager)
+
+        let privacyWindow: NSWindow
+        if allowsClose {
+            privacyWindow = NSWindow(contentViewController:
+                                        NSHostingController(rootView: rootView))
+        } else {
+            privacyWindow = ConsentModalSheet(rootView: rootView)
+        }
+        
+        var windowFrame = privacyWindow.frame
+        windowFrame.size = NSSize(width: 320, height: 480)
+        privacyWindow.setFrame(windowFrame, display: true, animate: false)
         privacyWindow.title = String(localized: "Privacy Consent", bundle: .module)
 
         if allowsClose {
@@ -65,6 +97,12 @@ public class AppKitConsentModalPresenter : ConsentModalPresenter {
             name: .privacyConsentModalDidDismiss,
             object: self,
             userInfo: nil)
+    }
+
+    @objc private func onWindowWillClose(_ notification: Notification) {
+        if notification.object as? NSWindow == self.consentsWindow {
+            self.consentsWindow = nil
+        }
     }
 }
 #endif
