@@ -9,27 +9,14 @@ import SwiftUI
 import PrivacyConsent
 
 struct ContentView: View {
-    @State var isPresented = false
-    
+    @Environment(\.presentPrivacyConsentModal)
+    private var presentPrivacyConsentModal
+
     var body: some View {
         VStack(alignment: .center) {
             Button("Mostra") {
-                PrivacyConsentManager.default.presentConsentsController(
-                    ifNeeded: false, allowsClose: false)
+                presentPrivacyConsentModal()
             }
-            Button("Mostra (Richiudibile)") {
-                PrivacyConsentManager.default.presentConsentsController(
-                    ifNeeded: false, allowsClose: true)
-            }
-        }
-        .onAppear {
-            PrivacyConsentManager.configure(
-                supportedConsentTypes: [
-                    .crashReports,
-                    .usageStats,
-                    .personalizedAds
-                ],
-                privacyPolicyUrl: URL(string: "https://google.com")!)
         }
         .accentColor(.orange)
         #if os(macOS)
