@@ -50,6 +50,12 @@ public struct PrivacyConsentView : View {
                     }
                 })
                 .buttonStyle(.secondary)
+                if !consentManager.hasMissingConsents {
+                    Button(String(localized: "Close", bundle: .module)) {
+                        dismiss()
+                    }
+                    .buttonStyle(.secondary)
+                }
             }
             .padding()
             #if !os(macOS)
