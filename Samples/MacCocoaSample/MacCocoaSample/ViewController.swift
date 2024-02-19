@@ -10,16 +10,19 @@ import PrivacyConsent
 
 class ViewController: NSViewController {
 
+    private let consentManager = PrivacyConsentManager()
+    private var consentModalPresenter: AppKitConsentModalPresenter!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        PrivacyConsentManager.configure(
+        consentManager.configure(
             supportedConsentTypes: [
                 .crashReports,
-                .usageStats,
-                .personalizedAds
+                .usageStats
             ],
             privacyPolicyUrl: URL(string: "https://google.com")!)
+        consentModalPresenter = AppKitConsentModalPresenter(consentManager: consentManager)
     }
 
     override var representedObject: Any? {
@@ -29,13 +32,11 @@ class ViewController: NSViewController {
     }
 
     @IBAction func showClosable(_ sender: Any?) {
-        PrivacyConsentManager.default.presentConsentsController(
-            ifNeeded: false, allowsClose: true)
+        consentModalPresenter.present(ifNeeded: false, allowsClose: true)
     }
 
     @IBAction func show(_ sender: Any?) {
-        PrivacyConsentManager.default.presentConsentsController(
-            ifNeeded: false, allowsClose: false)
+        consentModalPresenter.present(ifNeeded: false, allowsClose: false)
     }
 }
 
