@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ConsentStatus {
+public enum ConsentStatus : String {
     case unknown, grant, denied
 
     var boolValue: Bool? {

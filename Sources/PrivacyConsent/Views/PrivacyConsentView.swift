@@ -9,81 +9,76 @@ import Foundation
 import SwiftUI
 
 public struct PrivacyConsentView : View {
-    @EnvironmentObject var vm: PrivacyConsentViewModel
-    @EnvironmentObject var choicesVm: PrivacyChoicesViewModel
+    @Environment(PrivacyConsentManager.self)
+    private var consentManager
+
+    @Environment(\.dismiss)
+    private var dismiss
 
     public var body: some View {
-        VStack(alignment: .center) {
-            Image("PrivacyIcon", bundle: Bundle.module)
-                .resizable()
-                .foregroundColor(.accentColor)
-                .frame(width: 96, height: 96)
-                .padding()
-            Text(vm.text)
-            if let url = vm.privacyPolicyUrl {
-                #if !os(macOS)
-                NavigationLink(destination: BrowserView(url: url)) {
-                    Text("Read more", bundle: .module)
-                        .foregroundColor(.secondary)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                #else
-                if #available(macOS 11.0, *) {
-                    Link(String(localized: "Read more", bundle: .module), destination: url)
-                        .foregroundColor(.secondary)
+        NavigationStack {
+            VStack(alignment: .center) {
+                ScrollView {
+                    Image("PrivacyIcon", bundle: Bundle.module)
+                        .resizable()
+                        .foregroundColor(.accentColor)
+                        .frame(width: 96, height: 96)
+                        .padding()
+                    Text(consentManager.introText)
+                    if let url = consentManager.privacyPolicyUrl {
+                        #if !os(macOS)
+                        NavigationLink(destination: BrowserView(url: url)) {
+                            Text("Read more", bundle: .module)
+                                .foregroundColor(.secondary)
+                        }
                         .frame(maxWidth: .infinity, alignment: .leading)
-                } else {
-                    Button(String(localized: "Read more", bundle: .module)) {
-                        vm.open(url)
+                        #else
+                        Link(String(localized: "Read more", bundle: .module), destination: url)
+                            .foregroundColor(.secondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        #endif
                     }
                 }
-                #endif
+                Spacer()
+                Button(String(localized: "Accept", bundle: .module)) {
+                    acceptAndClose()
+                }
+                .buttonStyle(.primary)
+                NavigationLink(String(localized: "Customize", bundle: .module), destination: {
+                    PrivacyChoicesView() {
+                        dismiss()
+                    }
+                })
+                .buttonStyle(.secondary)
             }
-            Spacer()
-            Button(String(localized: "Accept", bundle: .module)) {
-                vm.acceptAndClose()
-            }
-            .buttonStyle(.primary)
+            .padding()
             #if !os(macOS)
-            NavigationLink(destination: PrivacyChoicesView()) {
-                Text("Customize", bundle: .module)
-            }
-            .buttonStyle(.secondary)
-            #else
-            Button(String(localized: "Customize", bundle: .module)) {
-                vm.customizeSheetVisible.toggle()
-            }
-            .buttonStyle(.secondary)
+            .navigationBarHidden(false)
+            .navigationBarTitle(String(localized: "Privacy Consent", bundle: .module), displayMode: .inline)
             #endif
         }
-        .padding()
-        #if !os(macOS)
-        .navigationBarHidden(false)
-        .navigationBarTitle(String(localized: "Privacy Consent", bundle: .module), displayMode: .inline)
-        #endif
-        .sheet(isPresented: $vm.customizeSheetVisible) {
-            PrivacyChoicesView()
-                // Fix crash due to a bug of macOS 10.15
-                // should be removed when support to this OS will be dropped
-                .environmentObject(self.choicesVm)
-                .frame(width: 360, height: 480)
-        }
     }
-}
 
-struct PrivacyConsentNavigationView : View {
-    public var body: some View {
-        NavigationView {
-            PrivacyConsentView()
-        }
+    private func acceptAndClose() {
+        consentManager.consentAll()
+        dismiss()
     }
 }
 
 struct PrivacyConsentView_Previews : PreviewProvider {
     static var previews: some View {
-        PrivacyConsentView()
-            .environmentObject(PrivacyConsentLoader())
-            .environmentObject(PrivacyConsentViewModel())
-            .environmentObject(PrivacyChoicesViewModel())
+        let consentManager = PrivacyConsentManager()
+
+        NavigationStack {
+            PrivacyConsentView()
+        }
+        .onAppear(perform: {
+            consentManager.configure(
+                supportedConsentTypes: [.crashReports, .usageStats],
+                privacyPolicyUrl: URL(string: "https://doublerew.net")!,
+                storage: InMemoryPrivacyConsentStorage()
+            )
+        })
+        .environment(consentManager)
     }
 }

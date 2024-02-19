@@ -6,118 +6,33 @@
 //
 import Foundation
 import SwiftUI
-#if !os(macOS)
-import UIKit
-#endif
 
+@Observable
 public class PrivacyConsentManager {
-    public static let `default` = PrivacyConsentManager()
-    public static let consentDidChangeNotification = Notification.Name("PrivacyConsentHelperConsentDidChangeNotification")
-    public static let consentsControllerWillPresent = Notification.Name("PrivacyConsentHelperConsentsControllerWillPresent")
-    public static let consentsControllerDidDismiss = Notification.Name("PrivacyConsentHelperConsentsControllerDidDismiss")
     private static let storeKey = "PrivacyConsentFlags"
-    public private(set) var supportedConsentTypes: [ConsentType]!
-    private weak var consentsViewController: AnyObject?
+    private static let defaultIntroText = String(localized: """
+This app collects anonymous data about usage and crash reports, these data help to fix bugs quickly and make the app grow update after update.
+Tap Accept if you want to allow the app to collect anonymous info, or tap Customize if you want to choose which info share with the developer.
+""", bundle: .module)
 
+    public private(set) var hasMissingConsents: Bool = false
+    public private(set) var supportedConsentTypes: [ConsentType] = []
+    public var privacyPolicyUrl: URL? = nil
     fileprivate var storage: PrivacyConsentStorage = UserDefaults.standard
+    public var introText = PrivacyConsentManager.defaultIntroText
 
-    public var privacyPolicyUrl: URL?
+    public func configure(
+        supportedConsentTypes: [ConsentType],
+        privacyPolicyUrl: URL? = nil,
+        storage: PrivacyConsentStorage = UserDefaults.standard,
+        introText: String? = nil
+    ) {
+        self.supportedConsentTypes = supportedConsentTypes
+        self.storage = storage
+        self.privacyPolicyUrl = privacyPolicyUrl
+        self.introText = introText == nil ? PrivacyConsentManager.defaultIntroText : introText!
 
-    public class func configure(supportedConsentTypes: [ConsentType], privacyPolicyUrl: URL?, storage: PrivacyConsentStorage = UserDefaults.standard) {
-        Self.default.supportedConsentTypes = supportedConsentTypes
-        Self.default.storage = storage
-        Self.default.privacyPolicyUrl = privacyPolicyUrl
-    }
-
-    public func shouldShowConsentsController() -> Bool {
-        for consent in self.supportedConsentTypes {
-            if self.consentStatus(for: consent) == .unknown {
-                return true
-            }
-        }
-
-        return false
-    }
-
-    public func presentConsentsController(ifNeeded: Bool = true, allowsClose: Bool = false) {
-        guard self.consentsViewController == nil else {
-            return
-        }
-
-        guard ifNeeded == false || self.shouldShowConsentsController() else {
-            return
-        }
-
-        #if !os(macOS)
-        guard let rootVC = UIApplication.shared.rootViewController else {
-            fatalError("Missing root view controller")
-        }
-
-        let controller = UIHostingController(rootView: PrivacyConsentModalView())
-        controller.modalPresentationStyle = .formSheet
-        controller.isModalInPresentation = !allowsClose
-
-        rootVC.present(controller, animated: true)
-
-        self.consentsViewController = controller
-        #else
-        let controller = NSHostingController(rootView: PrivacyConsentModalView())
-        let privacyWindow = NSWindow(contentViewController: controller)
-        privacyWindow.title = "Privacy Consent"
-
-        if allowsClose {
-            privacyWindow.makeKeyAndOrderFront(nil)
-        } else {
-            NSApp.mainWindow?.beginSheet(privacyWindow, completionHandler: { response in
-                self.consentsViewController = nil
-            })
-        }
-
-        self.consentsViewController = privacyWindow
-        #endif
-
-        NotificationCenter.default.post(
-            name: Self.consentsControllerWillPresent,
-            object: self,
-            userInfo: nil)
-    }
-
-    public func dismissConsentsCrontroller() {
-        defer {
-            self.consentsViewController = nil
-        }
-
-        #if !os(macOS)
-        guard let controller = self.consentsViewController as? UIViewController else {
-            return
-        }
-
-        controller.dismiss(animated: true) {
-            NotificationCenter.default.post(
-                name: Self.consentsControllerDidDismiss,
-                object: self,
-                userInfo: nil)
-        }
-        #else
-        guard let privacyWindow = self.consentsViewController as? NSWindow else {
-            return
-        }
-
-        privacyWindow.sheets.forEach { sheet in
-            privacyWindow.endSheet(sheet)
-        }
-
-        if privacyWindow.parent == nil {
-            privacyWindow.close()
-        } else {
-            NSApp.mainWindow?.endSheet(privacyWindow)
-        }
-
-        NotificationCenter.default.post(
-            name: Self.consentsControllerDidDismiss,
-            object: self,
-            userInfo: nil)
-        #endif
+        refreshMissingConsents()
     }
 
     public func setConsent(_ consent: ConsentType, status: ConsentStatus) {
@@ -173,32 +88,37 @@ public class PrivacyConsentManager {
         self.onConsentDidChange(consent: nil)
     }
 
-    fileprivate func onConsentDidChange(consent: ConsentType?) {
+    private func checkShouldShowConsentModal() -> Bool {
+        for consent in self.supportedConsentTypes {
+            if self.consentStatus(for: consent) == .unknown {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    private func refreshMissingConsents() {
+        self.hasMissingConsents = checkShouldShowConsentModal()
+    }
+
+    private func onConsentDidChange(consent: ConsentType?) {
         var userInfo = [String: Any]()
 
         if consent != nil {
             userInfo["consent"] = consent!
         }
 
+        refreshMissingConsents()
+
         NotificationCenter.default.post(
-            name: Self.consentDidChangeNotification,
+            name: .privacyConsentDidChange,
             object: self,
             userInfo: userInfo)
     }
 }
 
-#if !os(macOS)
-extension UIApplication {
-    var mainWindow: UIWindow? {
-        return self.connectedScenes
-            .filter({$0.activationState == .foregroundActive})
-            .compactMap({$0 as? UIWindowScene})
-            .first?.windows
-            .filter({$0.isKeyWindow}).first
-    }
+public extension Notification.Name {
+    static let privacyConsentDidChange = Notification.Name("PrivacyConsentManagerConsentDidChangeNotification")
 
-    var rootViewController: UIViewController? {
-        return self.mainWindow?.rootViewController
-    }
 }
-#endif

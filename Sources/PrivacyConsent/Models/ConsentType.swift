@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ConsentType {
+public struct ConsentType : Hashable {
     public let rawValue: String
     public let title: String
     public let description: String

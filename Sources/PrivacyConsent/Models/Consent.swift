@@ -27,3 +27,5 @@ extension Consent : Identifiable {
         return self.type.rawValue
     }
 }
+
+extension Consent : Hashable { }
