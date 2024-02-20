@@ -15,6 +15,7 @@ This app collects anonymous data about usage and crash reports, these data help 
 Tap Accept if you want to allow the app to collect anonymous info, or tap Customize if you want to choose which info share with the developer.
 """, bundle: .module)
 
+    public private(set) var isConfigured: Bool = false
     public private(set) var hasMissingConsents: Bool = false
     public private(set) var supportedConsentTypes: [ConsentType] = []
     public var privacyPolicyUrl: URL? = nil
@@ -33,6 +34,8 @@ Tap Accept if you want to allow the app to collect anonymous info, or tap Custom
         self.introText = introText == nil ? PrivacyConsentManager.defaultIntroText : introText!
 
         refreshMissingConsents()
+        
+        self.isConfigured = true
     }
 
     public init() { }
