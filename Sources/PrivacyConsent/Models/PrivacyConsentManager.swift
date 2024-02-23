@@ -19,13 +19,13 @@ Tap Accept if you want to allow the app to collect anonymous info, or tap Custom
     public private(set) var hasMissingConsents: Bool = false
     public private(set) var supportedConsentTypes: [ConsentType] = []
     public var privacyPolicyUrl: URL? = nil
-    fileprivate var storage: PrivacyConsentStorage = UserDefaults.standard
+    fileprivate var storage: any PrivacyConsentStorage = UserDefaults.standard
     public var introText = PrivacyConsentManager.defaultIntroText
 
     public func configure(
         supportedConsentTypes: [ConsentType],
         privacyPolicyUrl: URL? = nil,
-        storage: PrivacyConsentStorage = UserDefaults.standard,
+        storage: any PrivacyConsentStorage = UserDefaults.standard,
         introText: String? = nil
     ) {
         self.supportedConsentTypes = supportedConsentTypes
@@ -101,6 +101,10 @@ Tap Accept if you want to allow the app to collect anonymous info, or tap Custom
         }
 
         return false
+    }
+
+    internal func setStorage(_ storage: some PrivacyConsentStorage) {
+        self.storage = storage
     }
 
     private func refreshMissingConsents() {

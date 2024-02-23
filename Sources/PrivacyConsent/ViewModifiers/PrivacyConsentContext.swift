@@ -8,36 +8,22 @@
 import SwiftUI
 
 public struct PrivacyConsentContext: ViewModifier {
-    @State
-    private var consentManager = PrivacyConsentManager()
+    @Environment(PrivacyConsentManager.self)
+    private var consentManager
 
     @State
     private var isConsentModalPresented = false
 
-    private var supportedConsentTypes: [ConsentType]!
-    private var privacyPolicyUrl: URL?
-    private var storage: PrivacyConsentStorage = UserDefaults.standard
-
-    init(supportedConsentTypes: [ConsentType], privacyPolicyUrl: URL?, storage: any PrivacyConsentStorage) {
-        self.supportedConsentTypes = supportedConsentTypes
-        self.privacyPolicyUrl = privacyPolicyUrl
-        self.storage = storage
-    }
+    init() { }
 
     public func body(content: Content) -> some View {
         content
             .onAppear(perform: {
                 #if DEBUG
-                let isPreview = ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
-                let _storage = isPreview ? InMemoryPrivacyConsentStorage() : storage
-                #else
-                let _storage = storage
+                if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
+                    consentManager.setStorage(InMemoryPrivacyConsentStorage())
+                }
                 #endif
-                consentManager.configure(
-                    supportedConsentTypes: supportedConsentTypes,
-                    privacyPolicyUrl: privacyPolicyUrl,
-                    storage: _storage
-                )
 
                 if consentManager.hasMissingConsents {
                     self.isConsentModalPresented = true
@@ -61,17 +47,9 @@ public struct PrivacyConsentContext: ViewModifier {
 }
 
 public extension View {
-    func privacyConsentContext(
-        supportedConsentTypes: [ConsentType] = [.usageStats, .crashReports],
-        privacyPolicyUrl: URL? = nil,
-        storage: any PrivacyConsentStorage = UserDefaults.standard
-    ) -> some View {
+    func privacyConsentContext() -> some View {
         self
-            .modifier(PrivacyConsentContext(
-                supportedConsentTypes: supportedConsentTypes,
-                privacyPolicyUrl: privacyPolicyUrl,
-                storage: storage
-            ))
+            .modifier(PrivacyConsentContext())
     }
 }
 
@@ -92,6 +70,17 @@ fileprivate struct PrivacyConsentContextSampleView : View {
 #endif
 
 #Preview {
-    PrivacyConsentContextSampleView()
-        .privacyConsentContext(supportedConsentTypes: [.crashReports, .usageStats])
+    let consentManager = {
+        let consentManager = PrivacyConsentManager()
+        consentManager.configure(
+            supportedConsentTypes: [.crashReports, .usageStats],
+            privacyPolicyUrl: URL(string: "https://doublerew.net/legal/app-privacy-policy")!,
+            storage: InMemoryPrivacyConsentStorage()
+        )
+
+        return consentManager
+    }()
+    return PrivacyConsentContextSampleView()
+        .privacyConsentContext()
+        .environment(consentManager)
 }
