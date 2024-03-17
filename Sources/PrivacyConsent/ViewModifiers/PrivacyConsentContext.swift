@@ -67,7 +67,6 @@ fileprivate struct PrivacyConsentContextSampleView : View {
         }
     }
 }
-#endif
 
 #Preview {
     let consentManager = {
@@ -84,3 +83,4 @@ fileprivate struct PrivacyConsentContextSampleView : View {
         .privacyConsentContext()
         .environment(consentManager)
 }
+#endif
